@@ -46,7 +46,7 @@
             
 
                 <!-- 버튼 클릭 시 일기 작성 칸 나오게-->
-                <v-btn icon @click="addWrite" >
+                <v-btn icon @click="addWrite">
                     <v-icon>mdi-plus-circle-outline</v-icon>
                 </v-btn>
 
@@ -189,6 +189,7 @@ export default {
         addWrite () {
             this.dialog=true;
             this.$EventBus.$emit('click');
+            console.log(this.dialog);
         },
         toggleShow1 () {
             this.toggle= !this.toggle;

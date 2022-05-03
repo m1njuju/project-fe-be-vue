@@ -5,7 +5,7 @@
                 <v-list>
                     <v-list-item>
                         <v-img 
-                            :src="'https://picsum.photos/500/300?image'+n"
+                            :src="memo.img"
                             aspect-ratio="1"
                             class=" .float-left ml-4 mt-5"
                             max-width="180px">
@@ -78,6 +78,7 @@
                                 <v-divider class="mx-4"></v-divider>
 
                                 <v-textarea
+                                readonly
                                 outlined
                                 auto-grow
                                 v-model="memo.memo"
@@ -106,6 +107,12 @@ export default {
         .then((response)=>{
             this.memo = response.data
         })
+    },
+    methods: {
+        addWrite () {
+            this.dialog=true;
+            this.$EventBus.$emit('click');
+        },
     }
 }
 </script>

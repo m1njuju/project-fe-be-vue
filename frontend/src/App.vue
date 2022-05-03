@@ -3,9 +3,7 @@
     <v-app>
       <!-- 상단 툴바 -->
             <AppToolbar />
-      <transition name="view">
       <router-view />
-      </transition>
             <!-- 푸터 영역 -->
             <v-footer color="info lighten-2" dark app>
                 <div class="mx-auto">
@@ -52,13 +50,5 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 
-.view-enter-active, .view-leave-active {
-  transition: opacity 0.5s;
-}
-.view-leave-active {
-  position: absolute;
-}
-.view-enter, .view-leave-to {
-  opacity: 0;
-}
+
 </style>

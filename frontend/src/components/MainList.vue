@@ -3,15 +3,14 @@
         <!-- 갤러리 형식으로 정렬 -->
         <v-container>
             <v-row>
-                <v-col 
-                v-for="n in 9"
-                :key="n"
+                <v-col
+                v-for="memo in memo" :key="memo.id"
                 class="d-flex child-flex"
                 cols="6"
                 sm="3"
                 >
-                    <button @click="$router.push(`/page/${n}`)">
-                        <v-img :src="'https://picsum.photos/500?image='+n" max-width="200px">
+                    <button @click="$router.push(`/page/${memo.id}`)">
+                        <v-img :src="memo.img" max-width="200px">
                             <!--이미지 로딩 진행 써클 -->
                             <template v-slot:placeholder>
                                 <v-row
@@ -30,14 +29,6 @@
                 </v-col>
             </v-row>
         </v-container>
-        
-        <div >
-            <label for="">할 일</label>
-            <input type="text" v-model='memo.todo'>
-            <label for="">식단</label>
-            <input type="text" v-model='memo.meal'>
-        </div>
-        
     </div>
 </template>
 
@@ -53,7 +44,11 @@ export default {
                     'mdi-emoticon-sad-outline',
                     'mdi-emoticon-angry-outline',
                 ],
-            memo: {}
+            memo: [
+                {
+                    img: ''
+                }
+            ]
         }
     },
     created () {
@@ -63,5 +58,11 @@ export default {
             this.memo = response.data
         });
     },
+    methods: {
+        addWrite () {
+            this.dialog=true;
+            this.$EventBus.$emit('click');
+        },
+    }
 }
 </script>

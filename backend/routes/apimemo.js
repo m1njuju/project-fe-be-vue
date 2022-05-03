@@ -17,7 +17,8 @@ router.post('/', function(req, res, next) {
     date: "2022-05-02",
     todo: memo.todo,
     meal: memo.meal,
-    memo: memo.memo
+    memo: memo.memo,
+    img: memo.img
   };
   memos.push(m);
   res.send('ok');
