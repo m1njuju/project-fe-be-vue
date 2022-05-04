@@ -6,28 +6,8 @@
                 <v-card>
                     <v-row>
                         <v-col cols="4">
-                            <v-img 
-                            :src="'https://picsum.photos/500/300?image'"
-                            :lazy-src="'https://picsum.photos/10/6?image='* 15"
-                            aspect-ratio="1"
-                            class="grey lighten-2 .float-left ml-5 mt-5"
-                            max-width="200px"
-                            >
-
-                            <!--이미지 로딩 진행 써클 -->
-                            <template v-slot:placeholder>
-                                <v-row
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center"
-                                >
-                                    <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                    ></v-progress-circular>
-                                </v-row>
-                            </template>
-                            </v-img>
+                            <!-- 이미지 업로드 부분 -->
+                            <ImageUpload />
                         </v-col>
 
                         <v-col cols="8">
@@ -148,15 +128,23 @@
 </template>
 
 <script>
+import ImageUpload from './ImageUpload.vue';
+
 export default {
     name: 'WriteField',
+    components: {
+        ImageUpload
+    },
     data: function() {
         return {
+            
             dialog:false,
             iconIndex: 0,
-            todo: '',
-            meal: '',
-            memo: '',
+            memos: {
+                todo: '',
+                meal: '',
+                memo: '',
+            },
             date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
             menu1: false,
             tags: [
@@ -188,7 +176,9 @@ export default {
                 console.log(response.data)
             });
             this.dialog = false;
+            this.memos = ''
             this.$router.push('/')
+            
         }
     },
 }

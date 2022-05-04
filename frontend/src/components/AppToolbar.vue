@@ -4,7 +4,7 @@
         <v-app-bar app color="info lighten-2" dark class="mb-10">
             <v-app-bar-nav-icon @click="ndrawer = true"></v-app-bar-nav-icon>
             <a>
-                <v-toolbar-title @click="$router.push('/')"
+                <v-toolbar-title @click="$router.replace('/')"
                 class="headline white--text"
                 >Today's Frame</v-toolbar-title>
             </a>
@@ -49,6 +49,7 @@
                 <v-btn icon @click="addWrite">
                     <v-icon>mdi-plus-circle-outline</v-icon>
                 </v-btn>
+                
 
 
                 <!-- 설정 버튼 -->
@@ -122,12 +123,19 @@
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
+
+            <WriteField v-if="dialog" />
     </div>
 </template>
 
 <script>
+import WriteField from './WriteField.vue';
+
 export default {
     name: 'AppToolbar',
+    components: {
+        WriteField,
+    },
     data: function(){
         return {
             user: '',

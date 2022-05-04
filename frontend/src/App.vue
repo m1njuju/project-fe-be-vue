@@ -5,7 +5,7 @@
             <AppToolbar />
       <router-view />
             <!-- 푸터 영역 -->
-            <v-footer color="info lighten-2" dark app>
+            <v-footer color="info lighten-2" dark app padless>
                 <div class="mx-auto">
                     <small>Copyright &copy; {{ new Date().getFullYear() }} 
                       송민주. m1njuju , Ltd. All Rights Reserved</small>

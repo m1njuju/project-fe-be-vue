@@ -7,10 +7,14 @@
                 v-for="memo in memo" :key="memo.id"
                 class="d-flex child-flex"
                 cols="6"
-                sm="3"
+                sm="4"
+                md="3"
+                lg="2"
                 >
                     <button @click="$router.push(`/page/${memo.id}`)">
-                        <v-img :src="memo.img" max-width="200px">
+                        <v-img 
+                        :src="memo.img"
+                        max-width="200px" aspect-ratio="1">
                             <!--이미지 로딩 진행 써클 -->
                             <template v-slot:placeholder>
                                 <v-row
@@ -48,7 +52,9 @@ export default {
                 {
                     img: ''
                 }
-            ]
+            ],
+            imagelist: [],
+            imagecnt: 0
         }
     },
     created () {
@@ -57,6 +63,18 @@ export default {
             console.log(response.data);
             this.memo = response.data
         });
+    },
+    mounted() {
+        this.$http.post('/api/image', {
+            data: {
+                id: this.$route.params.id
+            }
+        }).then((response) => {
+            this.memo = response.data;
+            for(let i=2; i<=response.data.imagecnt; i++) {
+                this.imagelist.push(this.$route.params.id + '-'+ i + '.png');
+            }
+        })
     },
     methods: {
         addWrite () {

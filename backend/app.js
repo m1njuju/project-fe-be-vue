@@ -6,6 +6,7 @@ const history = require('connect-history-api-fallback');
 
 var indexRouter = require('./routes/index');
 var apimemoRouter = require('./routes/apimemo');
+const imageRouter = require('./routes/apiimage');
 
 var app = express();
 
@@ -19,5 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/memo', apimemoRouter);
+app.use('/api/image', imageRouter);
 
 module.exports = app;
