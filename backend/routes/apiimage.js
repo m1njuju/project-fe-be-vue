@@ -1,36 +1,29 @@
-var express = require('express');
-const multer = require('multer');
+var express = require("express");
 var router = express.Router();
-const fs = require('fs');
+const multer = require("multer");
+const memos = require("../memo.json");
+
+router.use("/uploadImg", express.static("media"));
 
 const storage = multer.diskStorage({
-    //파일 저장 경로
-    destination(req, file, callback) {
-        callback(null, 'uploads/')
-    },
-    //저장되는 파일이름 형식 커스텀 가능
-    filename(req, file, callback) {
-        callback(null, file.originalname)
-    }
+  //파일 저장 경로
+  destination(req, file, callback) {
+    callback(null, "media/");
+  },
+  //저장되는 파일이름 형식 커스텀 가능
+  filename(req, file, callback) {
+    console.log(file);
+    const fileName = `${Date.now()}_${req.params.id}.jpg`;
+    callback(null, fileName);
+  },
 });
-const upload = multer({ storage : storage });
 
-router.post('/',upload.array('upLoadImage'), function(req, res, next) {
-    /*let i, newname;
-    db.content.findOne({
-        limit: 1,
-        order: [['id', 'DESC']],
-        raw: true,
-    }).then(result => {
-        newname = result.id;
-        for( i=0; i<req.files.length; i++) {
-            fs.renameSync(req.files[i].path, 'image/'+(newname+1)+'-'+(i+1)+'.png');
-        }
-        return res.status(200).json({message: '이미지업로드완료!'});
-    })*/
+const upload = multer({ storage: storage }).single("inputImage");
 
-    console.log(req.file);//파일정보
-    res.send(req.file);
+router.post("/upload/:id", upload, function (req, res, next) {
+  console.log(req.body);
+  console.log(req.file.filename);
+  res.send();
 });
 
 module.exports = router;

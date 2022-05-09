@@ -1,52 +1,51 @@
 <template>
-    <div>
-            <v-file-input
-            type="file"
-            ref="image"
-            @change="uploadImg"
-            accept="image/*"
-            max-width="200px"
-            label="이미지를 등록하세요"
-            prepend-icon="mdi-camera"
-            ></v-file-input>
-        <v-img max-width="180px" :src="imageurl" alt="image"></v-img>
-    </div>
+  <div>
+    <input
+      style="display: block"
+      type="file"
+      id="inputImage"
+      name="inputImage"
+      @change="changeEvent"
+    />
+    <img
+      id="preview-image"
+      src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"
+      alt=""
+      style="width: 200px"
+    />
+  </div>
 </template>
 <script>
 export default {
-    data() {
-        return {
-            image: '',
-            imageurl: '', // 업로드한 이미지의 미리보기 기능을 위해 url 저장하는 객체
-        }
-    },
-    methods: {
-        uploadImg(file) {
-            if (!file) {
-                return;
-            }
-            this.image = this.$refs['image'].files
-            console.log('이미지가 들어왔습니다');
+  data() {
+    return {};
+  },
+  methods: {
+    readImage(input) {
+      // input 태그에 파일이 있는 경우
+      if (input.files && input.files[0]) {
+        // FileReader 인스턴스 생성
+        const reader = new FileReader();
 
-            const formData = new FormData(); //파일 전송할 때 FormData 형식으로 전송
-            this.imageurl = ''; // url은 미리보기용으로 사용
-            file.find((item) => {
-                formData.append('upLoadImage', item); // formData의 key: 'upLoadImage', value: 이미지
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    // e.target.result를 통해 이미지 url을 가져와서 url 객체에 저장
-                    this.imageurl.push({url: e.target.result});
-                };
-                reader.readAsDataURL(item);
-            });
-            this.$http.post('/api/image', {
-                headers: {'Content-Type': 'multipart/form-data'},
-                data: formData
-            }).then((response) => {
-                console.log(response.data.message);
-                this.imagecnt = file.length;
-            });
-        }
+        // 이미지라 로드된 경우
+        reader.onload = (e) => {
+          const previewImage = document.getElementById("preview-image");
+          previewImage.src = e.target.result;
+        };
+
+        // reader가 이미지 읽도록 하기
+        reader.readAsDataURL(input.files[0]);
+      }
     },
-}
+    changeEvent(e) {
+      this.readImage(e.target);
+      const fd = new FormData();
+      fd.append("inputImage", document.getElementById("inputImage").files[0]);
+
+      this.$http.post("api/image", fd).then((response) => {
+        console.log(response.data);
+      });
+    },
+  },
+};
 </script>
